@@ -1,0 +1,12 @@
+.DS_Store
+
+.editorconfig
+
+*/**/*.scss
+
+.sass-cache/
+.tmp/
+dist/
+test/
+node_modules/
+app/components
