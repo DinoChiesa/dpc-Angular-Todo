@@ -1,4 +1,5 @@
 <!doctype html>
+<html ng-app="t1App">
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
@@ -10,42 +11,37 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-    <link rel="stylesheet" href="styles/main.css">
 
     <link rel="stylesheet" href="styles/bootstrap.css">
     <link rel="stylesheet" href="styles/bootstrap-responsive.css">
-
-    <script type='text/javascript' src='scripts/dateFormat.js'></script>
-    <style type='text/css'>
-      tr { border-bottom: 1px dotted grey;}
-      td { padding: 1px 8px;}
-      table { margin: 2px 0 18px 0;}
-      td input[type="checkbox"] { margin: -2px 0 0 0;}
-    </style>
+    <link rel="stylesheet" href="styles/main.css">
+<!--
+    <link rel="stylesheet" href="bootstrap-editable/css/bootstrap-editable.css">
+-->
   </head>
 
-  <body ng-app="t1App">
-    <!--[if lt IE 7]>
-        <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
-        <![endif]-->
 
-    <!--[if lt IE 9]>
-        <script src="components/es5-shim/es5-shim.js"></script>
-        <script src="components/json3/lib/json3.min.js"></script>
-        <![endif]-->
-
+  <body>
     <!-- Add your site or application content here -->
-    <div class="container" ng-view>
+    <div class="log" id='logging'></div>
+
+    <div>
+      <div class="container" ng-view></div>
     </div>
 
-    <script src="components/angular/angular.js"></script>
-    <script src="components/angular-resource/angular-resource.js"></script>
-    <script src="components/angular-cookies/angular-cookies.js"></script>
-    <script src="components/angular-sanitize/angular-sanitize.js"></script>
-
+    <script src="scripts/angular/angular.js"></script>
+<!--
+    <script src="scripts/angular-resource/angular-resource.js"></script>
+    <script src="scripts/angular-cookies/angular-cookies.js"></script>
+    <script src="scripts/angular-sanitize/angular-sanitize.js"></script>
+-->
+    <script src="scripts/ui-bootstrap-tpls-0.4.0-SNAPSHOT.js"></script>
     <!-- build:js scripts/scripts.js -->
+
+    <script src="scripts/log.js"></script>
+    <script src='scripts/dateFormat.js'></script>
     <script src="scripts/app.js"></script>
-    <script src="scripts/controllers/main.js"></script>
+    <script src="scripts/controllers.js"></script>
     <!-- endbuild -->
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->

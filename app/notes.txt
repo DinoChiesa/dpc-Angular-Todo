@@ -1,0 +1,52 @@
+The scaffolding was created with yeoman, which
+    is nice.** Yeoman also gave me <A href='http://gruntj.com'>grunt</a>
+    for running a test server
+    with automagic <a href='http://livereload.com/'>LiveReload</a>
+    capability.  All good.
+
+  <p style='font-size:10pt;line-height:12pt;'> **<em>One drawback is that I
+    could not figure out how to add bootstrap css to what yeoman set up, after
+    I initially ran yeoman init. Somehow at that initial stage I
+    selected <a href='https://github.com/hecbuma/compass-bootstrap'>Bootstrap
+    for Compass</a>, and it turns out I don&apos;t want that, because I cannot
+    figure out how to get the grunt server to compile the scss into something
+    usable. (And I hate myself for even writing that sentence. Cmon, do we
+    really need to invent all this new stuff?  yeoman, bootstrap, grunt, bower,
+    testacular, compass, scss, seriously?) So I just manually copied in the
+    bootstrap css and images and ran that way. If Yeoman is just for
+    scaffolding then it&apos;s fine to modify the project that way, but I think
+    there&apos;s supposed to be a way to have yeoman do it and manage the
+    dependencies. </em> </p>
+
+
+==================================================================
+
+Permissions:
+
+Setup:
+
+for the Default role (any authenticated user).
+
+1. Add POST permissions to /things
+
+   This permits users to create a "thing" in the "things" collection.
+
+   Do not add GET permissions for anyone to /things.
+
+2. Add GET/PUT/POST/DELETE permissions to /users/me/things/**
+
+
+
+To create a thing:
+
+  POST  /org/app/things   with bearer token
+  POST  /org/app/users/me/things/{uuid}  with resulting uuid
+
+
+To retrieve all the things:
+
+  GET  /org/app/users/me/things
+
+To update:
+
+  PUT  /org/app/users/me/things/{uuid}
