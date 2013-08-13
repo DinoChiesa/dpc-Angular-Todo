@@ -16,7 +16,7 @@ All good.
 I've published it as a simple example.
 
 
-My use of Yeoman
+The use of Yeoman
 ========================
 
 As far as I can tell, Yeoman  scaffolds out new webapps and other types of apps.
@@ -52,5 +52,15 @@ I started this project by doing this:
 You don't need to know this to use the project. I'm adding it here only
 for interest.
 
-I don't know if you need yeoman to use this as is; I do
-think you need Grunt.
+You need yeoman to use this app as is; yeoman is really for initial set
+up as far as I can tell.  You also don't NEED to use Grunt, but you
+could use it.
+
+
+Bugs
+======
+
+- depends on a patched pre-release snapshot of ui-bootstrap v0.4.0. 
+  need to upgrade to v0.4.0
+
+- the log window needs to be a slideout. I don't know what the eidget is in angular. 
