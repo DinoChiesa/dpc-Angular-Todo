@@ -64,3 +64,6 @@ Bugs
   need to upgrade to v0.4.0
 
 - the log window needs to be a slideout. I don't know what the eidget is in angular. 
+
+- It should be possible to specify the UG org+app when signing in and registering. 
+  This information should be cached on the machine under the html5 app key (uuid). 
