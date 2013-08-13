@@ -2,15 +2,11 @@
 
 'use strict';
 
-// var usergridDotCom = 'https://api.usergrid.com',
-//     userGridOrg    = 'dino',
-//     userGridApp    = 'todolist',
-//     ugBaseUrl      = usergridDotCom + '/' + userGridOrg + '/' + userGridApp,
-
 log.write('controllers.js');
 
 var html5AppId = '076F20E4-2B21-43B0-8A9D-AC017BBDDA97',
     ugBaseUrl = 'http://cheeso-test.apigee.net/v1/todolist',
+    //ugBaseUrl = 'https://api.usergrid.com/myorg/mytodolist',
     ugUrl = ugBaseUrl + '/users/me/owns/items';
 
 log.write('ugBaseUrl: ' + ugBaseUrl);
@@ -79,7 +75,7 @@ function MainController ($scope, $http, $dialog /*, $httpProvider , $compile */ 
         // in case of error, the token is probably stale.
         log.write('OAuth token validation failed');
         window.localStorage.removeItem(html5AppId + '.bearerToken');
-        $scope.securityContext = {checked :true}; 
+        $scope.securityContext = {checked :true};
       });
   }
   else {
