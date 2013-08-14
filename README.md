@@ -44,16 +44,25 @@ org+app.
 In order for that to work, first you need your own App Services org. You
 can use a free org, sign up if you don't have one.  Then create an app
 in App Services, I suggest you use a new one just for this todolist
-app. Then, you need to establish these permissions for the default role
-in UG on that app:
+app. Then, you need to establish these permissions in App Services for
+the default role:
 
     /users        POST
     /items    GET POST     DELETE
     /items/*           PUT DELETE
 
-You can do this through the UG Admin UI, or using curl commands.
+and these permissions for the guest role
+in App Services:
 
-To do it with curl commands, first, login to the Admin UI and get the
+    /users        POST
+
+
+You can do this through the App Services Admin UI; it's pretty
+self-explanatory if you go to "User Management" and click on the
+appropriate roles.  You can also do it in an automated fashion using
+curl commands.
+
+For the latter, first, login to the Admin UI and get the
 org creds - this is a client_id and client_secret.
 
 Then, authenticate: 
