@@ -16,6 +16,84 @@ All good.
 I've published it as a simple example.
 
 
+
+To use it
+========================
+
+This is just an HTML5 app.  You can run it from any HTTP server, even
+localhost. To use it: unpack it and load the index.html for the app. 
+
+The app should ask you to login or register. Obviously on the first run
+you need to register. Thereafter you can login .
+
+The app uses a standard file layout: 
+  app/index.html
+  app/scripts/...
+  app/views/...
+  app/styles/...
+  app/img/...
+
+
+Hacking it
+========================
+
+To really get the feel for things, you'll want to hack it.  The first
+change to make is to direct the todolist controller to your own usergrid
+org+app.  
+
+In order for that to work, first you need your own App Services org. You
+can use a free org, sign up if you don't have one.  Then create an app
+in App Services, I suggest you use a new one just for this todolist
+app. Then, you need to establish these permissions for the default role
+in UG on that app:
+
+    /users        POST
+    /items    GET POST     DELETE
+    /items/*           PUT DELETE
+
+You can do this through the UG Admin UI, or using curl commands.
+
+To do it with curl commands, first, login to the Admin UI and get the
+org creds - this is a client_id and client_secret.
+
+Then, authenticate: 
+
+    curl -X POST -i -H "Content-Type: application/json" \
+        "https://api.usergrid.com/management/token" \
+        -d '{"grant_type":"client_credentials","client_id":"XXXXXXX","client_secret":"ZZZZZZZ"}'
+
+in response, you get a token: 
+
+    {
+      ...
+      "access_token": "TOKEN_HERE"
+    }
+
+
+With the token, make the following curl commands: 
+
+    curl -X POST -H "authorization: Bearer TOKEN_HERE" \
+       -d '{ "permission" : "post:/users" }' \
+      "https://api.usergrid.com/{your_org}/{your_app}/roles/default/permissions"
+
+    curl -X POST -H "authorization: Bearer TOKEN_HERE" \
+       -d '{ "permission" : "get,post,delete:/items" }' \
+      "https://api.usergrid.com/{your_org}/{your_app}/roles/default/permissions"
+
+    curl -X POST -H "authorization: Bearer TOKEN_HERE" \
+       -d '{ "permission" : "put,delete:/items/*" }' \
+      "https://api.usergrid.com/{your_org}/{your_app}/roles/default/permissions"
+
+    curl -X POST -H "authorization: Bearer TOKEN_HERE" \
+       -d '{ "permission" : "post:/users" }' \
+      "https://api.usergrid.com/{your_org}/{your_app}/roles/guest/permissions"
+
+
+ 
+
+
+
+
 The use of Yeoman
 ========================
 

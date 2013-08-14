@@ -4,6 +4,10 @@
 
 */**/*.scss
 
+sendit.js
+ftp.creds.js
+.ftpsync
+
 .sass-cache/
 .tmp/
 dist/
