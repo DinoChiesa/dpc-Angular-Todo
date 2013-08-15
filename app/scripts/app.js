@@ -42,7 +42,7 @@ angular
         // value is included in a sorted list, then the sorting will be active
         // during editing, which can cause UI surprises. Elements get sorted out
         // from under the cursor and can lose focus. So we edit a copy of the
-        // value. The actual model will get updated later, by the controller, 
+        // value. The actual model will get updated later, by the controller,
         // when this directive calls the onSaveFn.
         $scope.modelCopy = $scope.value;
 
@@ -195,5 +195,35 @@ angular
       return formattedDate;
     };
   });
+
+angular.module( 'ui.bootstrap.popover', [ 'ui.bootstrap.tooltip' ] )
+// for popovers with a template
+  .directive( 'popoverTemplatePopup', function () {
+    return {
+      restrict: 'EA',
+      replace: true,
+      scope: { title: '@', content: '@', placement: '@', animation: '&', isOpen: '&', template: '@' },
+      templateUrl: 'template/popover/popover-template.html'
+    };
+  })
+
+  .directive( 'popoverTemplate', [ '$tooltip', function ( $tooltip ) {
+    return $tooltip( 'popoverTemplate', 'popover', 'click' );
+  }]);
+
+angular
+  .module('template/popover/popover-template.html', [])
+  .run(['$templateCache', function($templateCache) {
+    $templateCache.put('views/popover-template.html',
+                       '<div class="popover {{placement}}"\n' +
+                       //                     '     style=\'width: 400px\'\n' +
+                       '     ng-class="{ in: isOpen(), fade: animation() }">\n' +
+                       '  <div class="arrow"></div>\n' +
+                       '  <div class="popover-inner" tt-load-template-in-sibling="{{template}}"></div>\n' +
+                       '</div>\n' +
+                       '');
+  }]);
+
+
 
 log.write('ng configured');

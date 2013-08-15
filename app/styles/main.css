@@ -1,16 +1,22 @@
-/* Will be compiled down to a single stylesheet with your sass files */
-div.log {
-  padding:0 2px 0 4px;
-  font-size:0.8em;
-  float:right;
-  width:28%;
-  max-height:94%;
-  overflow:scroll;
-  border:1px Grey dotted;
-}
 div.container {
-  width:67%;
-  float:left;
+  width:auto;
+}
+
+div.h-collapsible {
+  float:right;
+  width:auto;
+  max-width:340px;
+  border: 1px dotted Grey;
+}
+
+div#logging {
+  color: #614951;
+  font-size:9.5px;
+  overflow:scroll;
+}
+
+table td div.popover  {
+  max-width:none;
 }
 
 tr { border-bottom: 1px dotted grey;}

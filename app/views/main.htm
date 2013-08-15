@@ -1,77 +1,88 @@
-<div class="hero-unit" style='padding:22px 32px 32px 32px;'>
-  <h2 style='margin-top:-2px;'>TodoList</h2>
-  <p style='font-size:10pt;line-height:12pt;'>This toy todo list app
-    uses HTML for the presenttion, <a href='http://angularjs.org/'>Google&apos;s AngularJS</a> for
-    MVC, <a href='http://twitter.github.com/bootstrap/'>Twitter Bootstrap</a>
-    for styling, and <a href='https://apigee.com/usergrid'>Apigee App Services</a>
-    for backend services, including user authentication and storage. </p>
+<div>
 
-  <div class="btn-group"
-       ng-show="securityContext.checked && !securityContext.access_token"
-       >
-    <button class="btn btn-primary" ng-click="openLoginDialog()">Sign in</button> &nbsp;
-    <button class="btn btn-info" ng-click="openRegisterDialog()">Register</button>
+  <div class='h-collapsible' ng-controller="CollapseDemoController">
+    <button class="btn-mini" ng-click="isCollapsed = !isCollapsed">{{getButtonSymbol()}}</button>
+    <div collapse="isCollapsed" collapse-type="width" expanded-size='340px'>
+      <div class="well well-large" id='logging'></div>
+    </div>
   </div>
 
-  <div ng-show="securityContext && securityContext.access_token">
-    <p>You are logged in as: {{securityContext.user.username}}
-      <button class="btn btn-warning" ng-click="logout()">Sign out</button>
-    </p>
+  <div class="hero-unit" style='padding:22px 32px 32px 32px;'>
+    <h2 style='margin-top:-2px;'>TodoList</h2>
+    <p style='font-size:10pt;line-height:12pt;'>This toy todo list app
+      uses HTML for the presenttion, <a href='http://angularjs.org/'>Google&apos;s AngularJS</a> for
+      MVC, <a href='http://twitter.github.com/bootstrap/'>Twitter Bootstrap</a>
+      for styling, and <a href='https://apigee.com/usergrid'>Apigee App Services</a>
+      for backend services, including user authentication and storage. </p>
+
+    <div class="btn-group"
+         ng-show="securityContext.checked && !securityContext.access_token"
+         >
+      <button class="btn btn-primary" ng-click="openLoginDialog()">Sign in</button> &nbsp;
+      <button class="btn btn-info" ng-click="openRegisterDialog()">Register</button>
+    </div>
+
+    <div ng-show="securityContext && securityContext.access_token">
+      <p>You are logged in as: {{securityContext.user.username}}
+        <button class="btn btn-warning" ng-click="logout()">Sign out</button>
+      </p>
+    </div>
   </div>
-</div>
 
   <div ng-show="securityContext && securityContext.access_token"
        style='margin-left:10px;'>
-  <h3>Items: {{getShownTodos()}}/{{getTotalTodos()}}</h3>
+    <h3>Items: {{getShownTodos()}}/{{getTotalTodos()}}</h3>
 
-  <div>
-    <em>Filter:</em>
-    status: <select style='width:auto;' ng-model="filter.complete"
-                    ng-options="c.num as c.name for c in filter.completeOptions"></select>
-    description: <input type='text' ng-model='filter.descText'/></td>
-    priority: <select style='width:auto;' ng-model="filter.priority"
-                      ng-options="p.num as p.name for p in filter.priorityOptions"></select>
+    <div>
+      <em>Filter:</em>
+      status: <select style='width:auto;' ng-model="filter.complete"
+                      ng-options="c.num as c.name for c in filter.completeOptions"></select>
+      description: <input type='text' ng-model='filter.descText'/>
+      priority: <select style='width:auto;' ng-model="filter.priority"
+                        ng-options="p.num as p.name for p in filter.priorityOptions"></select>
+    </div>
+
+    <table class='unstyled tmain'>
+      <tr>
+        <td ng-click='setSort($event)'>?</td>
+        <td ng-click='setSort($event)'>Desc</td>
+        <td ng-click='setSort($event)'>notes</td>
+        <td ng-click='setSort($event)'>priority</td>
+        <td ng-click='setSort($event)'>created</td>
+        <td ng-click='setSort($event)'>completed</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr ng-repeat="item in todoItems | filter:filtered | orderBy:itemNormalizationFunction:sortReverse">
+        <td><input type='checkbox' ng-model='item.done'
+                   ng-click='onCheckedChanged(item)'/></td>
+        <td><div edit-in-place="item.text"
+                 on-save="updateItemText(value,previousValue,item)"></div></td>
+        <td>
+          <textarea-popover ng-model="item"
+                            on-save="updateItemNotes(previousValue,item)"
+                            /></td>
+
+        <td>
+          <select style='width:auto;'
+                  ng-model="item.priority"
+                  ng-change="updateItemPriority(item)"
+                  ng-options="pri.num as pri.name for pri in priorities">
+          </select>
+        </td>
+        <td><span class='foo'>{{item.created | dateFormatter}}</span></td>
+        <td><span class='foo'>{{item.completed | dateFormatter}}</span></td>
+        <td>
+          <a class="btn btn-mini btn-danger" ng-click="deleteItem(item)">
+            <i class="icon-remove icon-white"></i></a>
+        </td>
+      </tr>
+    </table>
+
+    <form class='form-horizontal'>
+      <input type='text' ng-model='newItemText' style='width:380px;' ng-model-instant>
+      <button class='btn' ng-click='addTodo()'>
+        <i class='icon-plus'></i> Add</button>
+    </form>
   </div>
 
-  <table class='unstyled tmain'>
-    <tr>
-      <td ng-click='setSort($event)'>?</td>
-      <td ng-click='setSort($event)'>Desc</td>
-      <td ng-click='setSort($event)'>notes</td>
-      <td ng-click='setSort($event)'>priority</td>
-      <td ng-click='setSort($event)'>created</td>
-      <td ng-click='setSort($event)'>completed</td>
-      <td>&nbsp;</td>
-    </tr>
-    <tr ng-repeat="item in todoItems | filter:filtered | orderBy:itemNormalizationFunction:sortReverse">
-      <td><input type='checkbox' ng-model='item.done'
-                 ng-click='onCheckedChanged(item)'/></td>
-      <td><div edit-in-place="item.text"
-               on-save="updateItemText(value,previousValue,item)"></div></td>
-      <td>
-        <textarea-popover ng-model="item"
-                          on-save="updateItemNotes(previousValue,item)"
-                          /></td>
-
-      <td>
-        <select style='width:auto;'
-                ng-model="item.priority"
-                ng-change="updateItemPriority(item)"
-                ng-options="pri.num as pri.name for pri in priorities">
-        </select>
-      </td>
-      <td><span class='foo'>{{item.created | dateFormatter}}</span></td>
-      <td><span class='foo'>{{item.completed | dateFormatter}}</span></td>
-      <td>
-        <a class="btn btn-mini btn-danger" ng-click="deleteItem(item)">
-          <i class="icon-remove icon-white"></i></a>
-      </td>
-    </tr>
-  </table>
-
-  <form class='form-horizontal'>
-    <input type='text' ng-model='newItemText' style='width:380px;' ng-model-instant>
-    <button class='btn' ng-click='addTodo()'>
-      <i class='icon-plus'></i> Add</button>
-  </form>
 </div>

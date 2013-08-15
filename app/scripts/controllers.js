@@ -417,3 +417,11 @@ function LoginRegisterDialogController ($scope, dialog, dialogModel, title, want
     dialog.close(result);
   };
 }
+
+
+function CollapseDemoController($scope) {
+  $scope.isCollapsed = true;
+  $scope.getButtonSymbol = function() {
+    return ($scope.isCollapsed) ? '<' : '>';
+  };
+}

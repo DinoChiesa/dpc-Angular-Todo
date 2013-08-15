@@ -15,47 +15,19 @@
     <link rel="stylesheet" href="styles/bootstrap.css">
     <link rel="stylesheet" href="styles/bootstrap-responsive.css">
     <link rel="stylesheet" href="styles/main.css">
-<!--
-    <link rel="stylesheet" href="bootstrap-editable/css/bootstrap-editable.css">
--->
   </head>
 
 
   <body>
-    <!-- Add your site or application content here -->
-    <div class="log" id='logging'></div>
-
     <div>
       <div class="container" ng-view></div>
     </div>
 
     <script src="scripts/angular/angular.js"></script>
-<!--
-    <script src="scripts/angular-resource/angular-resource.js"></script>
-    <script src="scripts/angular-cookies/angular-cookies.js"></script>
-    <script src="scripts/angular-sanitize/angular-sanitize.js"></script>
--->
-    <script src="scripts/ui-bootstrap-tpls-0.4.0-SNAPSHOT.js"></script>
-    <!-- build:js scripts/scripts.js -->
-
+    <script src="scripts/ui-bootstrap-tpls-0.5.0-patched.js"></script>
     <script src="scripts/log.js"></script>
     <script src='scripts/dateFormat.js'></script>
     <script src="scripts/app.js"></script>
     <script src="scripts/controllers.js"></script>
-    <!-- endbuild -->
-
-    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-
-<!--
-
-No likey
-
-    <script>
-      var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
-      (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-      g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
-      s.parentNode.insertBefore(g,s)}(document,'script'));
-    </script>
--->
   </body>
 </html>
