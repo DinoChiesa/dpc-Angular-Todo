@@ -27,26 +27,26 @@ Setup:
 
 for the Default role (any authenticated user).
 
-1. Add POST permissions to /things
+1. Add POST permissions to /items
 
    This permits users to create a "thing" in the "things" collection.
 
-   Do not add GET permissions for anyone to /things.
+   Do not add GET permissions for anyone to /items.
 
-2. Add GET/PUT/POST/DELETE permissions to /users/me/things/**
-
-
-
-To create a thing:
-
-  POST  /org/app/things   with bearer token
-  POST  /org/app/users/me/things/{uuid}  with resulting uuid
+2. Add GET/PUT/POST/DELETE permissions to /users/me/items/**
 
 
-To retrieve all the things:
 
-  GET  /org/app/users/me/things
+To create an item:
+
+  POST  /org/app/items   with bearer token
+  POST  /org/app/users/me/items/{uuid}  with resulting uuid
+
+
+To retrieve all the items:
+
+  GET  /org/app/users/me/items
 
 To update:
 
-  PUT  /org/app/users/me/things/{uuid}
+  PUT  /org/app/users/me/items/{uuid}

@@ -28,9 +28,8 @@ There are also some other supporting JS files here.
 - bootstrap.js   
   the standard bootstrap.js file
 
-- ui-bootstrap-tpls-0.4.0-SNAPSHOT.js   
-  a patched modified version of ui-bootstrap v0.4.0, with the templates. 
-  I can't remember what I needed to patch here. I did this before v0.4.0
-  was released, but I haven't upgraded to the official 0.4.0.  This is a bug. 
+- ui-bootstrap-tpls-0.5.0-patched.js   
+  a patched modified version of ui-bootstrap v0.5.0, with the templates. 
+  This one adds a horizontal collapse. 
 
 

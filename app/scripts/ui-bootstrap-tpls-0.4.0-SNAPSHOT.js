@@ -1,1 +1,0 @@
-/Users/Dino/dev/html/orders/scripts/angular/ui-bootstrap-tpls-0.4.0-SNAPSHOT.js

@@ -6,7 +6,7 @@
 //   log.write('something');
 //
 // created: Sat Jun 22 16:15:26 2013
-// last saved: <2013-August-14 17:17:45>
+// last saved: <2014-September-03 10:52:13>
 // ------------------------------------------------------------------
 //
 // Copyright © 2013 Dino Chiesa
@@ -28,7 +28,7 @@
 
   Log.prototype.write = function(str) {
     var time = ((new Date()) - this.start) / 1000, me = this;
-    this.buffer = '[' + time + '] ' + str + '<br/>\n' + this.buffer;
+    this.buffer = '[' + time.toFixed(3) + '] ' + str + '<br/>\n' + this.buffer;
     if (this.delays < 8) {
       clearTimeout(this.timer);
       // inserting the stuff into the DOM is done in batches,

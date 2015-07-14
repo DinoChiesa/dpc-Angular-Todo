@@ -38,12 +38,15 @@ angular
         element.addClass( 'edit-in-place' );
         $scope.editing = false;
 
-        // This directive edits a copy of the value. Important because if the
-        // value is included in a sorted list, then the sorting will be active
-        // during editing, which can cause UI surprises. Elements get sorted out
-        // from under the cursor and can lose focus. So we edit a copy of the
-        // value. The actual model will get updated later, by the controller,
-        // when this directive calls the onSaveFn.
+        // This directive edits a copy of the value, not the actual
+        // value. Important because if the value is included in a sorted
+        // list, then the sorting will be active during editing, which
+        // can cause UI surprises. Elements can get sorted out from
+        // under the cursor during live editing, and can then lose
+        // focus. By editint a copy of the value, the actual model
+        // remains the same.  The model gets updated later, by the
+        // controller, when this directive calls the onSaveFn. At that
+        // point re-sort (if any) occurs. Joy ensues.
         $scope.modelCopy = $scope.value;
 
         $scope.handleClick = function() {

@@ -15,6 +15,9 @@
       for styling, and <a href='https://apigee.com/usergrid'>Apigee App Services</a>
       for backend services, including user authentication and storage. </p>
 
+    <div ng-show="securityContext.checked && !securityContext.access_token">
+      <p>Try logging in with dpchiesa@hotmail.com / JournalisticGrievances </p>
+    </div>
     <div class="btn-group"
          ng-show="securityContext.checked && !securityContext.access_token"
          >
