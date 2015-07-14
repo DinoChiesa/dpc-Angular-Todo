@@ -20,13 +20,13 @@ I've published it as a simple example.
 To use it
 ========================
 
-This is just an HTML5 app.  You can run it from any HTTP server, even
+This is a single-page HTML5 web app.  You can run it from any HTTP server, even
 localhost. To use it: unpack it and load the index.html for the app. 
 
 The app should ask you to login or register. Obviously on the first run
-you need to register. Thereafter you can login .
+you need to register. Thereafter, you can login .
 
-The app uses a standard file layout: 
+The app uses a pretty transparent file layout: 
   app/index.html
   app/scripts/...
   app/views/...
@@ -98,19 +98,20 @@ With the token, make the following curl commands:
       "https://api.usergrid.com/{your_org}/{your_app}/roles/guest/permissions"
 
 
- 
-
-
 
 
 The use of Yeoman
 ========================
 
+You don't need to know this to use the project. I'm adding it here only
+for interest.
+
+I started this project using yoeman because someone told me to do it.  
+
 As far as I can tell, Yeoman  scaffolds out new webapps and other types of apps.
 I dont know what Bower is, but it uses that.
 It also uses Grunt which is just a task manager, like a build tool for
 Javascript, based on Node.js.
-
 
 I started this project by doing this:
 
@@ -136,11 +137,8 @@ I started this project by doing this:
     grunt
 
 
-You don't need to know this to use the project. I'm adding it here only
-for interest.
-
-You need yeoman to use this app as is; yeoman is really for initial set
-up as far as I can tell.  You also don't NEED to use Grunt, but you
+You DON'T need yeoman to use this app as is; yeoman is really for initial set
+up as far as I can tell.  You also DON'T need to use Grunt, but you
 could use it.
 
 
@@ -148,9 +146,16 @@ Bugs
 ======
 
 - depends on a patched pre-release snapshot of ui-bootstrap v0.4.0. 
-  need to upgrade to v0.4.0
-
-- the log window needs to be a slideout. I don't know what the eidget is in angular. 
+  need to upgrade to v0.4.0. Or whatever is current now.  
 
 - It should be possible to specify the UG org+app when signing in and registering. 
   This information should be cached on the machine under the html5 app key (uuid). 
+
+
+
+Fixed Things
+==================
+
+- the log window is now a slideout. 
+
+
