@@ -1,13 +1,18 @@
-/*global log: false */
+/*global log: false, angular: false, window: false */
 
 'use strict';
 
 log.write('controllers.js');
 
-var html5AppId = '076F20E4-2B21-43B0-8A9D-AC017BBDDA97',
-    ugBaseUrl = 'http://cheeso-test.apigee.net/v1/todolist',
-    //ugBaseUrl = 'https://api.usergrid.com/myorg/mytodolist',
-    ugUrl = ugBaseUrl + '/users/me/owns/items';
+// just a unique id for local Storage
+var html5AppId = '076F20E4-2B21-43B0-8A9D-AC017BBDDA97';
+
+// the base URL in usergrid.  This one is an Apigee Edge proxy (for tracing purposes)
+var ugBaseUrl = 'http://cheeso-test.apigee.net/v1/todolist';
+    //ugBaseUrl = 'https://api.usergrid.com/myorg/mytodolistapp';
+
+// the URL for retrieving items for the todo list 
+var ugUrl = ugBaseUrl + '/users/me/owns/items';
 
 log.write('ugBaseUrl: ' + ugBaseUrl);
 
@@ -72,14 +77,15 @@ function MainController ($scope, $http, $dialog /*, $httpProvider , $compile */ 
         initialRetrieve();
       })
       .error(function(data, status, headers, config) {
-        // in case of error, the token is probably stale.
+        // in case of error, probably the token is expired. Remove it and get a new one. 
         log.write('OAuth token validation failed');
         window.localStorage.removeItem(html5AppId + '.bearerToken');
-        $scope.securityContext = {checked :true};
+        // storing checked=true is just for diagnostic purposes
+        $scope.securityContext = { checked : true };
       });
   }
   else {
-    $scope.securityContext = {checked : true};
+    $scope.securityContext = { checked : true };
   }
 
 
@@ -220,10 +226,12 @@ function MainController ($scope, $http, $dialog /*, $httpProvider , $compile */ 
     log.write(action + ' failed (' + status + ')...' + JSON.stringify(data));
 
     if (data) {
-      if (action === 'delete' && data.error === 'unauthorized') {
-        log.write('see USERGRID-1713. fixed 15 July?');
-      }
-      else if (data.error === 'expired_token') {
+
+      // if (action === 'delete' && data.error === 'unauthorized') {
+      //   log.write('see USERGRID-1713. fixed 15 July?');
+      // } else
+
+      if (data.error === 'expired_token') {
         // need to re-authenticate
         scope.logout();
       }
@@ -419,6 +427,7 @@ function LoginRegisterDialogController ($scope, dialog, dialogModel, title, want
 }
 
 
+// this is used in views/main.htm
 function CollapseDemoController($scope) {
   $scope.isCollapsed = true;
   $scope.getButtonSymbol = function() {

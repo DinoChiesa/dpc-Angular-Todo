@@ -1,4 +1,4 @@
-/*global Log: false */
+/* global Log: false, angular: false */
 
 'use strict';
 
@@ -119,7 +119,7 @@ angular
     };
   })
 
-// textarea-popover element
+  // textarea-popover element
   .directive( 'textareaPopover', function( /* $compile, $http */) {
     return {
       restrict: 'E',
@@ -199,8 +199,10 @@ angular
     };
   });
 
+
+// create a popover with a template
 angular.module( 'ui.bootstrap.popover', [ 'ui.bootstrap.tooltip' ] )
-// for popovers with a template
+  // for popovers with a template
   .directive( 'popoverTemplatePopup', function () {
     return {
       restrict: 'EA',
@@ -214,6 +216,8 @@ angular.module( 'ui.bootstrap.popover', [ 'ui.bootstrap.tooltip' ] )
     return $tooltip( 'popoverTemplate', 'popover', 'click' );
   }]);
 
+
+// set the template for a popover. 
 angular
   .module('template/popover/popover-template.html', [])
   .run(['$templateCache', function($templateCache) {
