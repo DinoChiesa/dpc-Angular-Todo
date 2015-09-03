@@ -1,0 +1,90 @@
+
+/* this is a line to correct a glitch with angular and ui-bootstrap */
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+
+div.container {
+  width:auto;
+}
+
+div.h-collapsible {
+  float:right;
+  width:auto; /* 340px; */
+  max-width:340px;
+  /* border: 1px dotted Grey;*/
+}
+
+.collapsing-width {
+  position: relative;
+  overflow: hidden;
+  -webkit-transition: width 0.35s ease;
+    -moz-transition: width 0.35s ease;
+    -o-transition: width 0.35s ease;
+    transition: width 0.35s ease;
+}
+
+.collapse, .collapsing-width {
+  float: right;
+}
+
+div#logging {
+  color: #614951;
+  font-size:9.5px;
+  overflow:scroll;
+  max-width:340px;
+}
+
+div.filters > span {
+  margin-right: 12px;
+}
+
+table td div.popover  {
+  max-width:none;
+}
+
+tr { border-bottom: 1px dotted grey;}
+td { padding: 1px 8px;}
+table { margin: 2px 0 18px 0;}
+td input[type="checkbox"] { margin: -2px 0 0 0;}
+
+/* the edit-in-place directive displays either a span */
+/* or an input element, depending on the active class. */
+.edit-in-place > span {
+  cursor: pointer;
+}
+
+.edit-in-place > input,
+.edit-in-place > textarea {
+  display: none;
+}
+
+.edit-in-place.active > span {
+  display: none;
+}
+
+.edit-in-place.active > input,
+.edit-in-place.active > textarea {
+  display: inline-block;
+}
+
+table.tmain > tbody > tr > td > select {
+  margin-bottom:0px;
+}
+
+.item-date {
+  text-transform: capitalize;
+  white-space: nowrap;
+  /* letter-spacing: 0.05em; */
+  font-size: x-small;
+}
+
+.item-priority {
+  font-size: small;
+}
+
+tr.item-table-header td {
+  font-style: italic;
+  color: DarkGrey;
+}
+
+
+.btn-purple { background-color: hsl(270, 38%, 54%) !important; background-repeat: repeat-x; filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#cbb8df", endColorstr="#895db6"); background-image: -khtml-gradient(linear, left top, left bottom, from(#cbb8df), to(#895db6)); background-image: -moz-linear-gradient(top, #cbb8df, #895db6); background-image: -ms-linear-gradient(top, #cbb8df, #895db6); background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #cbb8df), color-stop(100%, #895db6)); background-image: -webkit-linear-gradient(top, #cbb8df, #895db6); background-image: -o-linear-gradient(top, #cbb8df, #895db6); background-image: linear-gradient(#cbb8df, #895db6); border-color: #895db6 #895db6 hsl(270, 38%, 47.5%); color: #333 !important; text-shadow: 0 1px 1px rgba(255, 255, 255, 0.42); -webkit-font-smoothing: antialiased; }

@@ -1,31 +1,31 @@
 <div style="position:relative;">
-  <a class="btn btn-mini btn-info notes-button"
+  <a class="btn btn-xs btn-info notes-button"
      ng-click="toggleEdits($event)"
      ng-mouseover="directiveMouseOver(item)"
      ng-mouseleave="directiveMouseLeave(item)">
-    <i class="icon-edit icon-white"></i></a>
+    <span class="glyphicon glyphicon-edit glyphicon-white"></span></a>
   <div class="popover" ng-style="popoverStyle"
        style="top:-28px; left:32px; z-index:9998; margin-top:0px; padding:10px; position:absolute; min-width:236px; width:auto;">
-    {{item.notes}}
+    {{text}}
   </div>
 
   <div class="popover editable-container editable-popup fade in right" ng-style="editBoxStyle"
        style="top:-28px; left:32px; z-index:9999; margin-top:0px; position:absolute; width:auto;">
     <div class="arrow" style="top:38px;"></div>
     <div class="popover-inner">
-      <h3 class="popover-title">Edit Notes</h3>
+      <h3 class="popover-title">Edit Text</h3>
       <div class="popover-content">
         <div class="control-group">
           <div>
             <div class="editable-input">
-              <textarea class="input-large" style="width:370px;" rows="5" ng-model="item.notes"></textarea>
+              <textarea class="input-large" style="width:370px;" rows="5" ng-model="text"></textarea>
             </div>
             <div class="editable-buttons">
-              <button class="btn btn-primary editable-submit" type="button" ng-click="acceptEdits($event)">
-                <i class="icon-ok icon-white"></i>
+              <button class="btn-xs btn-primary editable-submit" type="button" ng-click="acceptEdits($event)">
+                <span class="glyphicon glyphicon-ok glyphicon-white"></span>
               </button>
-              <button class="btn editable-cancel" type="button" ng-click="discardEdits($event)">
-                <i class="icon-remove"></i>
+              <button class="btn-xs editable-cancel" type="button" ng-click="discardEdits($event)">
+                <span class="glyphicon glyphicon-remove"></span>
               </button>
             </div>
           </div>

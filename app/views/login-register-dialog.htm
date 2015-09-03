@@ -1,17 +1,28 @@
 <div style='width:auto;'>
   <div class="modal-header" >
     <button type="button" class="close" data-dismiss="modal" ng-click="cancel()" aria-hidden="true">&times;</button>
-    <h4>{{title}}</h4>
+    <h4>{{options.title}}</h4>
   </div>
   <div class="modal-body">
     <fieldset>
-      <div ng-show="wantIdentity">
-        <label>Name:</label><input type="text" ng-model="dialogModel.name" placeholder="Name" required/>
-        <label>Email:</label><input type="text" ng-model="dialogModel.email" placeholder="Email" required/>
+      <div ng-show="options.wantIdentity" style='display:block;margin-bottom:20px;'>
+      <div style='display:block;'>
+        <label style='width:102px;margin-right:8px;'>Name:</label>
+        <input type="text" ng-model="dialogModel.name" placeholder="Name" required/>
       </div>
-      <label>Username:</label><input type="text" ng-model="dialogModel.username" placeholder="Username" required/>
-      <label>Password:</label><input type="password" ng-model="dialogModel.password" placeholder="Password" required/>
-
+      <div style='display:block;'>
+        <label style='width:102px;margin-right:8px;'>Email:</label>
+        <input type="text" ng-model="dialogModel.email" placeholder="Email" required/>
+      </div>
+      </div>
+      <div style='display:block;'>
+        <label style='width:102px;margin-right:8px;'>Username:</label>
+        <input type="text" ng-model="dialogModel.username" placeholder="Username" required/>
+      </div>
+      <div style='display:block;'>
+        <label style='width:102px;margin-right:8px;'>Password:</label>
+        <input type="password" ng-model="dialogModel.password" placeholder="Password" required/>
+      </div>
       <div class="alert alert-error" ng-show="dialogModel.errorMessage">
         <strong>{{dialogModel.errorMessage}}</strong>
       </div>
@@ -19,8 +30,8 @@
     </fieldset>
   </div>
   <div class="modal-footer">
-    <button class="btn" ng-click="cancel()">Cancel</button>
-    <button class="btn btn-primary" ng-click="login(dialogModel)">{{title}}</button>
+    <button class="btn" ng-click="cancel()">{{options.closeButtonText || 'Cancel'}}</button>
+    <button class="btn btn-primary" ng-click="login(dialogModel)">{{options.actionButtonText}}</button>
   </div>
 
 </div>

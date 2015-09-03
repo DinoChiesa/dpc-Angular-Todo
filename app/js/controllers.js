@@ -2,7 +2,7 @@
 
 'use strict';
 
-log.write('controllers.js');
+//log.write('controllers.js');
 
 // just a unique id for local Storage
 var html5AppId = '076F20E4-2B21-43B0-8A9D-AC017BBDDA97';
@@ -11,23 +11,25 @@ var html5AppId = '076F20E4-2B21-43B0-8A9D-AC017BBDDA97';
 var ugBaseUrl = 'http://cheeso-test.apigee.net/v1/todolist';
     //ugBaseUrl = 'https://api.usergrid.com/myorg/mytodolistapp';
 
-// the URL for retrieving items for the todo list 
+// the URL for retrieving items for the todo list
 var ugUrl = ugBaseUrl + '/users/me/owns/items';
 
-log.write('ugBaseUrl: ' + ugBaseUrl);
+//log.write('ugBaseUrl: ' + ugBaseUrl);
 
 function TodoItem(desc) {
   return {
     text      : desc,
     created   : new Date().toJSON(),
+    modified  : null,
     completed : null,
+    tags      : "",
     status    : 0,
     priority  : 2,
     done      : false
   };
 }
 
-function MainController ($scope, $http, $dialog /*, $httpProvider , $compile */ ) {
+function MainController ($scope, $http, $modal /*, $httpProvider , $compile */ ) {
   var dialogModel = {}, token, reUrl = new RegExp('https?://[^/]+(/.*)$'), httpConfig;
 
   $scope.todoItems = [];
@@ -39,6 +41,7 @@ function MainController ($scope, $http, $dialog /*, $httpProvider , $compile */ 
   $scope.filter = {
     priority: 0,
     descText : '',
+    tagsText : '',
     complete : 0,
     completeOptions : [ { num:0,name:'all'},
                         { num:1,name:'completed'},
@@ -48,16 +51,16 @@ function MainController ($scope, $http, $dialog /*, $httpProvider , $compile */ 
   };
 
   $scope.dialogOpts = {
-    backdrop: true,
+    backdrop: 'static', // true ??
     keyboard: true,
     backdropClick: false,
     templateUrl: 'views/login-register-dialog.htm',
     controller: 'LoginRegisterDialogController',
-    // resolve is used to inject data into the controller for the dialog.
+
+    // resolve is a hash of functions used to inject data into the controller
     resolve: {
       dialogModel: function() { return angular.copy(dialogModel); },
-      wantIdentity: function() { return true; },
-      title: function() { return 'unkown'; }
+      options : function() { }
     }
   };
 
@@ -77,7 +80,7 @@ function MainController ($scope, $http, $dialog /*, $httpProvider , $compile */ 
         initialRetrieve();
       })
       .error(function(data, status, headers, config) {
-        // in case of error, probably the token is expired. Remove it and get a new one. 
+        // in case of error, probably the token is expired. Remove it and get a new one.
         log.write('OAuth token validation failed');
         window.localStorage.removeItem(html5AppId + '.bearerToken');
         // storing checked=true is just for diagnostic purposes
@@ -91,11 +94,16 @@ function MainController ($scope, $http, $dialog /*, $httpProvider , $compile */ 
 
   $scope.openRegisterDialog = function() {
     dialogModel = {};
-    $scope.dialogOpts.resolve.title = function() { return 'Register'; };
-    $scope.dialogOpts.resolve.wantIdentity = function() { return true; };
-    var d = $dialog.dialog($scope.dialogOpts);
-    d.open().then(function(result){
-      if(result) {
+    $scope.dialogOpts.resolve.options = function() {
+        return {
+          wantIdentity: true,
+          title: 'Please Register...',
+          actionButtonText: 'Register'
+        };
+    };
+    var promise = $modal.open($scope.dialogOpts);
+    return promise.result.then(function(result){
+      if (result) {
         register(result);
       }
     });
@@ -103,11 +111,18 @@ function MainController ($scope, $http, $dialog /*, $httpProvider , $compile */ 
 
   $scope.openLoginDialog = function(keepErrorMsg) {
     if ( ! keepErrorMsg && dialogModel.errorMessage) { delete dialogModel.errorMessage; }
-    $scope.dialogOpts.resolve.title = function() { return 'Login'; };
-    $scope.dialogOpts.resolve.wantIdentity = function() { return false; };
-    var d = $dialog.dialog($scope.dialogOpts);
-    d.open().then(function(result){
-      if(result) {
+
+    $scope.dialogOpts.resolve.options = function() {
+        return {
+          wantIdentity: false,
+          title: 'Sign in...',
+          actionButtonText: 'Sign in'
+        };
+    };
+    var promise = $modal.open($scope.dialogOpts);
+
+    return promise.result.then(function(result){
+      if (result) {
         login(result, initialRetrieve);
       }
     });
@@ -345,7 +360,7 @@ function MainController ($scope, $http, $dialog /*, $httpProvider , $compile */ 
 
   $scope.updateItemPriority = function(item) {
     var url = ugUrl + '/' + item.uuid;
-    log.write('Item priority: ' + item.uuid + ', text:' + item.priority);
+    log.write('Item: ' + item.uuid + ', priority:' + item.priority);
     //item.priority = value;
     $http.put(url, item)
       .success(function( /*content*/) {
@@ -358,8 +373,10 @@ function MainController ($scope, $http, $dialog /*, $httpProvider , $compile */ 
 
   $scope.updateItemText = function(value, previousValue, item) {
     var url = ugUrl + '/' + item.uuid;
-    log.write('Item text: ' + item.uuid + ', text:' + value);
+    log.write('Item: ' + item.uuid + ', text:' + value);
+    //log.write(JSON.stringify(item));
     item.text = value; // accept the edited value
+    log.write(JSON.stringify(item));
     $http.put(url, item)
       .success(function( /*content*/) {
         log.write('UG updated, text:' + item.text);
@@ -369,10 +386,10 @@ function MainController ($scope, $http, $dialog /*, $httpProvider , $compile */ 
       });
   };
 
-  $scope.updateItemNotes = function(previousValue, item) {
+  $scope.updateItemNotes = function(value, previousValue, item) {
     var url = ugUrl + '/' + item.uuid;
-    log.write('Item notes: ' + item.uuid + ', notes:' + item.notes);
-    //item.notes = value;
+    log.write('Item: ' + item.uuid + ', notes:' + value);
+    item.notes = value; // copy the new value into the item
     $http.put(url, item)
       .success(function( /*content*/) {
         log.write('UG updated, notes:' + item.notes);
@@ -380,8 +397,21 @@ function MainController ($scope, $http, $dialog /*, $httpProvider , $compile */ 
       .error(function(data, status, headers /*,  config */) {
         chainingErrorHandler($scope, 'updateItemNotes', data, status, headers /*,  chain */);
       });
-
   };
+
+  $scope.updateItemTags = function(value, previousValue, item) {
+    var url = ugUrl + '/' + item.uuid;
+    log.write('Item: ' + item.uuid + ', tags:' + value);
+    item.tags = value; // accept the edited value
+    $http.put(url, item)
+      .success(function( /*content*/) {
+        log.write('UG updated, tags:' + item.tags);
+      })
+      .error(function(data, status, headers /*,  config */) {
+        chainingErrorHandler($scope, 'updateItemTags', data, status, headers /*,  chain */);
+      });
+  };
+
 
   $scope.getTotalTodos = function () {
     return $scope.todoItems.length;
@@ -393,6 +423,7 @@ function MainController ($scope, $http, $dialog /*, $httpProvider , $compile */ 
 
   $scope.filtered = function(item) {
     var include = true;
+    function trimit(s) { return s.trim(); }
 
     // 1. filter on done-ness
     if ($scope.filter.complete !== 0) {
@@ -405,7 +436,20 @@ function MainController ($scope, $http, $dialog /*, $httpProvider , $compile */ 
       include = (item.text.indexOf($scope.filter.descText) > -1);
     }
 
-    // 3. filter on priority
+    // 3. filter on tags
+    if (include && $scope.filter.tagsText && $scope.filter.tagsText.length > 0) {
+      if (item.tags && item.tags.length > 0) {
+        var tagsToFind = $scope.filter.tagsText.split(',').map(trimit);
+        include = tagsToFind.some(function (v) {
+          return item.tags.split(',').map(trimit).indexOf(v) >= 0;
+        });
+      }
+      else {
+        include = false;
+      }
+    }
+
+    // 4. filter on priority
     if (include && $scope.filter.priority !== 0) {
       include = (item.priority === $scope.filter.priority);
     }
@@ -414,23 +458,30 @@ function MainController ($scope, $http, $dialog /*, $httpProvider , $compile */ 
   };
 }
 
-function LoginRegisterDialogController ($scope, dialog, dialogModel, title, wantIdentity) {
+
+
+function LoginRegisterDialogController ($scope, $modalInstance, dialogModel, options) {
   $scope.dialogModel = dialogModel;
-  $scope.title = title;
-  $scope.wantIdentity = wantIdentity;
-  $scope.cancel = function(){
-    dialog.close();
-  };
+  $scope.options = options;
+  $scope.cancel = $modalInstance.dismiss;
   $scope.login = function(result){
-    dialog.close(result);
+    $modalInstance.close(result);
   };
 }
 
 
-// this is used in views/main.htm
+// this is used in views/main.htm to collapse the log viewer panel
 function CollapseDemoController($scope) {
   $scope.isCollapsed = true;
   $scope.getButtonSymbol = function() {
     return ($scope.isCollapsed) ? '<' : '>';
   };
 }
+
+angular
+  .module('t1App')
+  .controller('MainController', ['$scope', '$http', '$modal', MainController])
+  .controller('CollapseDemoController', ['$scope', CollapseDemoController])
+  .controller('LoginRegisterDialogController',
+              ['$scope', '$modalInstance', 'dialogModel', 'options',
+               LoginRegisterDialogController]);

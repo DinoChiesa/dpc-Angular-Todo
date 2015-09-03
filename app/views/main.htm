@@ -1,9 +1,9 @@
 <div>
 
   <div class='h-collapsible' ng-controller="CollapseDemoController">
-    <button class="btn-mini" ng-click="isCollapsed = !isCollapsed">{{getButtonSymbol()}}</button>
-    <div collapse="isCollapsed" collapse-type="width" expanded-size='340px'>
-      <div class="well well-large" id='logging'></div>
+    <button class="btn-sm" ng-click="isCollapsed = !isCollapsed">{{getButtonSymbol()}}</button>
+    <div collapse-width="isCollapsed" ><!-- collapse-type="width" expanded-size='340px' -->
+      <div class="well well-lg" id='logging'></div>
     </div>
   </div>
 
@@ -12,8 +12,8 @@
     <p style='font-size:10pt;line-height:12pt;'>This toy todo list app
       uses HTML for the presenttion, <a href='http://angularjs.org/'>Google&apos;s AngularJS</a> for
       MVC, <a href='http://twitter.github.com/bootstrap/'>Twitter Bootstrap</a>
-      for styling, and <a href='https://apigee.com/usergrid'>Apigee App Services</a>
-      for backend services, including user authentication and storage. </p>
+      for styling, and <a href='https://apigee.com/usergrid'>Apigee BaaS</a>
+      for backend services, including user authentication and data storage.</p>
 
     <div ng-show="securityContext.checked && !securityContext.access_token">
       <p>Try logging in with dpchiesa@hotmail.com </p>
@@ -36,22 +36,25 @@
        style='margin-left:10px;'>
     <h3>Items: {{getShownTodos()}}/{{getTotalTodos()}}</h3>
 
-    <div>
+    <div class='filters'>
       <em>Filter:</em>
-      status: <select style='width:auto;' ng-model="filter.complete"
-                      ng-options="c.num as c.name for c in filter.completeOptions"></select>
-      description: <input type='text' ng-model='filter.descText'/>
-      priority: <select style='width:auto;' ng-model="filter.priority"
-                        ng-options="p.num as p.name for p in filter.priorityOptions"></select>
+      <span> status: <select style='width:auto;' ng-model="filter.complete"
+                             ng-options="c.num as c.name for c in filter.completeOptions"></select></span>
+      <span> description: <input type='text' ng-model='filter.descText' ng-model-options="{debounce: 1100}"/></span>
+      <span> tags: <input type='text' ng-model='filter.tagsText' ng-model-options="{debounce: 900}"/></span>
+      <span> priority: <select style='width:auto;' ng-model="filter.priority"
+                               ng-options="p.num as p.name for p in filter.priorityOptions"></select></span>
     </div>
 
     <table class='unstyled tmain'>
-      <tr>
+      <tr class='item-table-header'>
         <td ng-click='setSort($event)'>?</td>
-        <td ng-click='setSort($event)'>Desc</td>
+        <td ng-click='setSort($event)'>description</td>
         <td ng-click='setSort($event)'>notes</td>
+        <td ng-click='setSort($event)'>tags</td>
         <td ng-click='setSort($event)'>priority</td>
         <td ng-click='setSort($event)'>created</td>
+        <td ng-click='setSort($event)'>modified</td>
         <td ng-click='setSort($event)'>completed</td>
         <td>&nbsp;</td>
       </tr>
@@ -61,22 +64,37 @@
         <td><div edit-in-place="item.text"
                  on-save="updateItemText(value,previousValue,item)"></div></td>
         <td>
-          <textarea-popover ng-model="item"
-                            on-save="updateItemNotes(previousValue,item)"
-                            /></td>
+          <textarea-popover ng-model="item.notes"
+                            on-save="updateItemNotes(value,previousValue,item)"/></td>
+
+        <td>
+          <textarea-popover ng-model="item.tags"
+                            on-save="updateItemTags(value,previousValue,item)"/></td>
+
+        <!-- 
+        <td><div class='item-tags'
+                 edit-in-place="item.tags"
+                 ng-change="updateItemTags(value,previousValue,item)">
+        </div>
+          <a class="btn btn-mini btn-purple">
+            <i class="icon-plus-sign icon-white"></i></a>
+        </td>
+        -->
 
         <td>
           <select style='width:auto;'
+                  class='item-priority'
                   ng-model="item.priority"
                   ng-change="updateItemPriority(item)"
                   ng-options="pri.num as pri.name for pri in priorities">
           </select>
         </td>
-        <td><span class='foo'>{{item.created | dateFormatter}}</span></td>
-        <td><span class='foo'>{{item.completed | dateFormatter}}</span></td>
+        <td><span class='item-date'>{{item.created | dateFormatter}}</span></td>
+        <td><span class='item-date'>{{item.modified | dateFormatter}}</span></td>
+        <td><span class='item-date'>{{item.completed | dateFormatter}}</span></td>
         <td>
-          <a class="btn btn-mini btn-danger" ng-click="deleteItem(item)">
-            <i class="icon-remove icon-white"></i></a>
+          <a class="btn btn-xs btn-danger" ng-click="deleteItem(item)">
+            <span class="glyphicon glyphicon-remove glyphicon-white"></span></a>
         </td>
       </tr>
     </table>
@@ -84,7 +102,7 @@
     <form class='form-horizontal'>
       <input type='text' ng-model='newItemText' style='width:380px;' ng-model-instant>
       <button class='btn' ng-click='addTodo()'>
-        <i class='icon-plus'></i> Add</button>
+        <span class='glyphicon glyphicon-plus'></span> Add</button>
     </form>
   </div>
 
