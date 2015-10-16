@@ -54,14 +54,14 @@
         <td ng-click='setSort($event)'>tags</td>
         <td ng-click='setSort($event)'>priority</td>
         <td ng-click='setSort($event)'>created</td>
-        <td ng-click='setSort($event)'>modified</td>
-        <td ng-click='setSort($event)'>completed</td>
+        <td class='date-sm' ng-click='setSort($event)'>modified</td>
+        <td class='date-sm' ng-click='setSort($event)'>completed</td>
         <td>&nbsp;</td>
       </tr>
       <tr ng-repeat="item in todoItems | filter:filtered | orderBy:itemNormalizationFunction:sortReverse">
         <td><input type='checkbox' ng-model='item.done'
                    ng-click='onCheckedChanged(item)'/></td>
-        <td><div edit-in-place="item.text"
+        <td class='item-desc'><div edit-in-place="item.text"
                  on-save="updateItemText(value,previousValue,item)"></div></td>
         <td>
           <textarea-popover ng-model="item.notes"
@@ -89,9 +89,9 @@
                   ng-options="pri.num as pri.name for pri in priorities">
           </select>
         </td>
-        <td><span class='item-date'>{{item.created | dateFormatter}}</span></td>
-        <td><span class='item-date'>{{item.modified | dateFormatter}}</span></td>
-        <td><span class='item-date'>{{item.completed | dateFormatter}}</span></td>
+        <td class='item-date-sm'><span class='item-date'>{{item.created | dateFormatter}}</span></td>
+        <td class='item-date-sm'><span class='item-date'>{{item.modified | dateFormatter}}</span></td>
+        <td class='item-date-sm'><span class='item-date'>{{item.completed | dateFormatter}}</span></td>
         <td>
           <a class="btn btn-xs btn-danger" ng-click="deleteItem(item)">
             <span class="glyphicon glyphicon-remove glyphicon-white"></span></a>

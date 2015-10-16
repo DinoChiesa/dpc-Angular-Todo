@@ -4,10 +4,11 @@
 
 //log.write('controllers.js');
 
-// just a unique id for local Storage
+// a unique id for local Storage
 var html5AppId = '076F20E4-2B21-43B0-8A9D-AC017BBDDA97';
 
-// the base URL in usergrid.  This one is an Apigee Edge proxy (for tracing purposes)
+// the base URL in usergrid.  This one is an Apigee Edge proxy,
+// used for tracing and analytics collection purposes.
 var ugBaseUrl = 'http://cheeso-test.apigee.net/v1/todolist';
     //ugBaseUrl = 'https://api.usergrid.com/myorg/mytodolistapp';
 
@@ -270,6 +271,8 @@ function MainController ($scope, $http, $modal /*, $httpProvider , $compile */ )
       .success(function(data){
         log.write('got ' + data.entities.length + ' items');
         $scope.todoItems = data.entities;
+        // filter: show only those items "not done"
+        $scope.filter.complete = 2;
       })
       .error(function(response, code /*, headers, config */) {
         log.write('failed to get items from UG: ' + code);
